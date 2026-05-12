@@ -9,74 +9,76 @@
 /* ============================================================
    MENÜ VERİSİ — SADECE BU BÖLÜMÜ DÜZENLEYİN
 
-   Her satır bir yemektir. Değiştirebileceğiniz 3 şey var:
+   Her satır bir yemektir. Değiştirebileceğiniz şeyler:
 
    tr:"..."     →  Türkçe yemek adı
    en:"..."     →  İngilizce yemek adı
    price: 000   →  Fiyat (sadece sayıyı değiştirin, ₺ otomatik eklenir)
-   descTr:"..." →  Türkçe açıklama (değiştirmek istemiyorsanız dokunmayın)
-   descEn:"..." →  İngilizce açıklama (değiştirmek istemiyorsanız dokunmayın)
+   descTr:"..." →  Türkçe açıklama
+   descEn:"..." →  İngilizce açıklama
+   after18: true → "18:00'dan sonra sipariş edilebilir" ibaresini gösterir
+                   Kaldırmak için satırdan silin ya da false yapın
 
    DOKUNMAYIN: img, key, TABS, buildMenu ve diğer her şey
 ============================================================ */
 
 var TABS = [
-  { key: 'soup',    tr: 'Çorbalar',       en: 'Soups'         },
-  { key: 'toast',   tr: 'Tostlar',        en: 'Toasts'        },
-  { key: 'hotsw',   tr: 'Sıcak\nSandwich',en: 'Hot\nSandwich' },
-  { key: 'coldsw',  tr: 'Soğuk\nSandwich',en: 'Cold\nSandwich'},
-  { key: 'burger',  tr: 'Burgerler',      en: 'Burgers'       },
-  { key: 'wrap',    tr: 'Dürümler',       en: 'Wraps'         },
-  { key: 'taco',    tr: 'Tacolar',        en: 'Tacos'         },
-  { key: 'pasta',   tr: 'Makarnalar',     en: 'Pasta'         },
-  { key: 'salad',   tr: 'Salatalar',      en: 'Salads'        },
-  { key: 'classic', tr: 'Classic',        en: 'Classic'       },
-  { key: 'snack',   tr: 'Atıştırmalık',   en: 'Snacks'        },
-  { key: 'drinks',  tr: 'İçecekler',      en: 'Drinks'        },
+  { key: 'soup',    tr: 'Çorbalar',        en: 'Soups'          },
+  { key: 'toast',   tr: 'Tostlar',         en: 'Toasts'         },
+  { key: 'hotsw',   tr: 'Sıcak\nSandwich', en: 'Hot\nSandwich'  },
+  { key: 'coldsw',  tr: 'Soğuk\nSandwich', en: 'Cold\nSandwich' },
+  { key: 'burger',  tr: 'Burgerler',       en: 'Burgers'        },
+  { key: 'wrap',    tr: 'Dürümler',        en: 'Wraps'          },
+  { key: 'taco',    tr: 'Tacolar',         en: 'Tacos'          },
+  { key: 'pasta',   tr: 'Makarnalar',      en: 'Pasta'          },
+  { key: 'salad',   tr: 'Salatalar',       en: 'Salads'         },
+  { key: 'classic', tr: 'Classic',         en: 'Classic'        },
+  { key: 'snack',   tr: 'Atıştırmalık',    en: 'Snacks'         },
+  { key: 'drinks',  tr: 'İçecekler',       en: 'Drinks'         },
 ];
 
 var MENU_DATA = {
 
   soup: [
-    { tr: 'Mercimek Çorbası',  en: 'Red Lentil Soup',  price: 150, img: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=80', descTr: 'Kırmızı mercimek ve baharatlar',           descEn: 'Red lentils and spices' },
-    { tr: 'Tavuk Çorbası',     en: 'Chicken Soup',     price: 250, img: 'https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=300&q=80', descTr: 'Tavuk suyu, sebze ve baharatlar',         descEn: 'Chicken broth, vegetables and spices' },
+    { tr: 'Mercimek Çorbası', en: 'Red Lentil Soup', price: 150, img: 'mercimek.png', descTr: 'Kırmızı mercimek ve baharatlar',   descEn: 'Red lentils and spices' },
+    { tr: 'Tavuk Çorbası',    en: 'Chicken Soup',    price: 250, img: 'tavuk_suyu.png', descTr: 'Tavuk suyu, sebze ve baharatlar', descEn: 'Chicken broth, vegetables and spices' },
   ],
 
   toast: [
-    { tr: 'Kaşarlı Tost',       en: 'Cheese Toast',        price: 120, img: 'kasarli-tost.png',      descTr: '',                                                                  descEn: '' },
-    { tr: 'Klasik Tost',        en: 'Classic Toast',       price: 160, img: 'klasik-tost.png',       descTr: 'Kaşar, sucuk, salça',                                               descEn: 'Cheese, sausage, tomato paste' },
-    { tr: 'Bazlama Tost',       en: 'Bazlama Toast',       price: 240, img: 'bazlama-tost.png',      descTr: 'Domates, közlenmiş biber, Ezine peyniri',                            descEn: 'Tomato, roasted pepper, Ezine cheese' },
-    { tr: 'Kavurmalı Tost',     en: 'Kavurma Toast',       price: 395, img: 'kavurmali-tost.png',    descTr: 'Kavurma, kaşar peyniri',                                            descEn: 'Kavurma (braised beef), melted cheese' },
-    { tr: 'Pesto Avokado Tost', en: 'Pesto Avocado Toast', price: 350, img: 'pesto-avokado-tost.png',descTr: 'Pesto, avokado püresi, çeçil peyniri, cheddar',                     descEn: 'Pesto, avocado purée, string cheese, cheddar' },
+    { tr: 'Kaşarlı Tost',       en: 'Cheese Toast',        price: 120, img: 'kasarli-tost.png',       descTr: '',                                                    descEn: '' },
+    { tr: 'Klasik Tost',        en: 'Classic Toast',       price: 160, img: 'klasik-tost.png',        descTr: 'Kaşar, sucuk, salça',                                 descEn: 'Cheese, sausage, tomato paste' },
+    { tr: 'Bazlama Tost',       en: 'Bazlama Toast',       price: 240, img: 'bazlama-tost.png',       descTr: 'Domates, közlenmiş biber, Ezine peyniri',              descEn: 'Tomato, roasted pepper, Ezine cheese' },
+    { tr: 'Kavurmalı Tost',     en: 'Kavurma Toast',       price: 395, img: 'kavurmali-tost.png',     descTr: 'Kavurma, kaşar peyniri',                              descEn: 'Kavurma (braised beef), melted cheese' },
+    { tr: 'Pesto Avokado Tost', en: 'Pesto Avocado Toast', price: 350, img: 'pesto-avokado-tost.png', descTr: 'Pesto, avokado püresi, çeçil peyniri, cheddar',       descEn: 'Pesto, avocado purée, string cheese, cheddar' },
   ],
 
   hotsw: [
-    { tr: 'Krema Soslu Tavuk Sandwich',    en: 'Creamy Chicken Sandwich',       price: 370, img: 'kremali-tavuklu-sandwich.png',       descTr: 'Ekşi mayalı ekmek, tavuk parçaları, sarımsaklı tereyağı, eritilmiş kaşar', descEn: 'Sourdough bread, tender chicken pieces, garlic butter, melted cheese' },
-    { tr: 'Hot Dog',                       en: 'Hot Dog',                       price: 180, img: 'hotdog.png',                         descTr: 'Dana sosis, salçalı tereyağlı sos, hardal, ketçap, turşu',                 descEn: 'Beef sausage, tomato-butter sauce, mustard, ketchup, pickles' },
-    { tr: 'Club Sandwich',                 en: 'Club Sandwich',                 price: 370, img: 'club-sandwich.png',                  descTr: 'Izgara tavuk, jambon, yumurta, kaşar, marul, turşu',                      descEn: 'Grilled chicken, ham, egg, cheese, lettuce, pickles' },
-    { tr: 'Urban Bites Signature Sandwich',en: 'Urban Bites Signature Sandwich',price: 450, img: 'urban-bites-sandwich.png',           descTr: 'Trabzon ekmeği, biftek eti, eritme peynir, karamelize soğan, roka',       descEn: 'Traditional bread, grilled steak, melted cheese, caramelized onions, rocket' },
+    { tr: 'Krema Soslu Tavuk Sandwich',     en: 'Creamy Chicken Sandwich',        price: 370, img: 'kremali-tavuklu-sandwich.png', descTr: 'Ekşi mayalı ekmek, tavuk parçaları, sarımsaklı tereyağı, eritilmiş kaşar', descEn: 'Sourdough bread, tender chicken pieces, garlic butter, melted cheese' },
+    { tr: 'Hot Dog',                        en: 'Hot Dog',                        price: 180, img: 'hotdog.png',                  descTr: 'Dana sosis, salçalı tereyağlı sos, hardal, ketçap, turşu',                 descEn: 'Beef sausage, tomato-butter sauce, mustard, ketchup, pickles',                 after18: true },
+    { tr: 'Club Sandwich',                  en: 'Club Sandwich',                  price: 370, img: 'club-sandwich.png',           descTr: 'Izgara tavuk, jambon, yumurta, kaşar, marul, turşu',                      descEn: 'Grilled chicken, ham, egg, cheese, lettuce, pickles' },
+    { tr: 'Urban Bites Signature Sandwich', en: 'Urban Bites Signature Sandwich', price: 450, img: 'urban-bites-sandwich.png',    descTr: 'Trabzon ekmeği, biftek eti, eritme peynir, karamelize soğan, roka',       descEn: 'Traditional bread, grilled steak, melted cheese, caramelized onions, rocket' },
   ],
 
   coldsw: [
-    { tr: 'Pesto Mozzarella Sandwich', en: 'Pesto Mozzarella Sandwich', price: 370, img: 'focaccia-pesto-mozarella-sandwich.png', descTr: 'Focaccia, pesto, mozzarella peyniri, domates',                                          descEn: 'Focaccia, fresh mozzarella, pesto sauce, tomatoes' },
-    { tr: 'Füme Et Sandwich',          en: 'Smoked Beef Sandwich',      price: 495, img: 'fume-et-sandwich.png',                  descTr: 'Ekşi mayalı ekmek, füme et, domates, dilim kaşar, roka yaprakları, zeytinyağı',         descEn: 'Sourdough bread, smoked beef, sliced cheese, tomatoes, rocket, olive oil' },
-    { tr: 'Füme Somon Sandwich',       en: 'Smoked Salmon Sandwich',    price: 490, img: 'fume-somon-sandwich.png',              descTr: 'Ekşi mayalı ekmek, füme somon, avokado salsa, roka, zeytinyağı, peynir mousse',          descEn: 'Sourdough bread, smoked salmon, avocado salsa, rocket, olive oil, cheese mousse' },
+    { tr: 'Pesto Mozzarella Sandwich', en: 'Pesto Mozzarella Sandwich', price: 370, img: 'focaccia-pesto-mozarella-sandwich.png', descTr: 'Focaccia, pesto, mozzarella peyniri, domates',                                        descEn: 'Focaccia, fresh mozzarella, pesto sauce, tomatoes' },
+    { tr: 'Füme Et Sandwich',          en: 'Smoked Beef Sandwich',      price: 495, img: 'fume-et-sandwich.png',                  descTr: 'Ekşi mayalı ekmek, füme et, domates, dilim kaşar, roka yaprakları, zeytinyağı',       descEn: 'Sourdough bread, smoked beef, sliced cheese, tomatoes, rocket, olive oil' },
+    { tr: 'Füme Somon Sandwich',       en: 'Smoked Salmon Sandwich',    price: 490, img: 'fume-somon-sandwich.png',              descTr: 'Ekşi mayalı ekmek, füme somon, avokado salsa, roka, zeytinyağı, peynir mousse',        descEn: 'Sourdough bread, smoked salmon, avocado salsa, rocket, olive oil, cheese mousse' },
   ],
 
   burger: [
-    { tr: 'Classic Burger',                en: 'Classic Burger',                price: 450, img: 'klasik-burger.png',       descTr: '130gr hamburger köftesi, marul, domates, turşu, soğan',                                   descEn: '130gr beef patty, lettuce, tomato, pickles, onion' },
-    { tr: 'Cheese Burger',                 en: 'Cheeseburger',                  price: 465, img: 'cheese-burger.png',       descTr: '130gr hamburger köftesi, cheddar peynir, marul, domates, soğan, turşu',                    descEn: '130gr beef patty, cheddar cheese, lettuce, tomato, onion, pickles' },
-    { tr: 'Çıtır Tavuk Burger',            en: 'Crispy Chicken Burger',         price: 420, img: 'tavuk-burger.png',        descTr: 'Çıtır pane tavuk, turşu, marul, karamelize soğan, özel sos',                              descEn: 'Breaded crispy chicken, lettuce, pickles, caramelized onions, special sauce' },
-    { tr: 'Tandır Burger',                 en: 'Slow-Cooked Beef Burger',       price: 650, img: 'tiftik-burger.png',       descTr: 'Fırında 6 saat pişirilmiş dana eti, eritme peynir, karamelize soğan',                     descEn: '6-hour oven-cooked tender beef, melted cheese, caramelized onions' },
-    { tr: 'Urban Bites Signature Burger',  en: 'Urban Bites Signature Burger',  price: 695, img: 'urban-bites-burger.png',  descTr: 'Özel double urban köfte, füme et, kibrit patates, karamelize soğan, özel sos',            descEn: 'Double special beef patties, smoked meat, thin fries, caramelized onions, signature sauce' },
-    { tr: 'Islak Hamburger',               en: 'Wet Burger (Istanbul Style)',   price: 180, img: 'islak-hamburger.png',     descTr: 'Köfte, hamburger ekmeği',                                                                 descEn: 'Beef patty in a soft bun with special tomato sauce' },
+    { tr: 'Classic Burger',               en: 'Classic Burger',               price: 450, img: 'klasik-burger.png',      descTr: '130gr hamburger köftesi, marul, domates, turşu, soğan',                              descEn: '130gr beef patty, lettuce, tomato, pickles, onion' },
+    { tr: 'Cheese Burger',                en: 'Cheeseburger',                 price: 465, img: 'cheese-burger.png',      descTr: '130gr hamburger köftesi, cheddar peynir, marul, domates, soğan, turşu',               descEn: '130gr beef patty, cheddar cheese, lettuce, tomato, onion, pickles' },
+    { tr: 'Çıtır Tavuk Burger',           en: 'Crispy Chicken Burger',        price: 420, img: 'tavuk-burger.png',       descTr: 'Çıtır pane tavuk, turşu, marul, karamelize soğan, özel sos',                         descEn: 'Breaded crispy chicken, lettuce, pickles, caramelized onions, special sauce' },
+    { tr: 'Tandır Burger',                en: 'Slow-Cooked Beef Burger',      price: 650, img: 'tiftik-burger.png',      descTr: 'Fırında 6 saat pişirilmiş dana eti, eritme peynir, karamelize soğan',                descEn: '6-hour oven-cooked tender beef, melted cheese, caramelized onions' },
+    { tr: 'Urban Bites Signature Burger', en: 'Urban Bites Signature Burger', price: 695, img: 'urban-bites-burger.png', descTr: 'Özel double urban köfte, füme et, kibrit patates, karamelize soğan, özel sos',       descEn: 'Double special beef patties, smoked meat, thin fries, caramelized onions, signature sauce' },
+    { tr: 'Islak Hamburger',              en: 'Wet Burger (Istanbul Style)',   price: 180, img: 'islak-hamburger.png',   descTr: 'Köfte, hamburger ekmeği',                                                            descEn: 'Beef patty in a soft bun with special tomato sauce', after18: true },
   ],
 
   wrap: [
-    { tr: 'Kumru Dürüm',              en: 'Kumru Wrap',          price: 220, img: 'kumru-durum.png',              descTr: 'Sucuk, sosis, salam, eritilmiş kaşar, kornişon turşu',                          descEn: 'Turkish sausage, salami, melted cheese, gherkin pickles' },
-    { tr: 'Sezar Soslu Tavuk Dürüm', en: 'Caesar Chicken Wrap', price: 290, img: 'sezar-soslu-tavuk-durum.png',  descTr: 'Pane tavuk parçaları, füme et, marul, sezar sos',                               descEn: 'Breaded chicken, smoked meat, lettuce, caesar dressing' },
-    { tr: 'Urban Bites Dürüm',       en: 'Urban Bites Wrap',    price: 230, img: 'urban-bites-durum.png',        descTr: 'Baharatlı tavuk, sumaklı soğan, kornişon turşu, kibrit patates, ketçaplı mayonezli sos', descEn: 'Spiced chicken, sumac onion, gherkin pickles, thin fries, ketchup mayo sauce' },
-    { tr: 'Et Dürüm',                en: 'Beef Wrap',           price: 395, img: 'et-durum.png',                 descTr: 'Et parçaları, biber, soğan, mantar, kaşar peyniri',                             descEn: 'Beef pieces, pepper, onion, mushroom, melted cheese' },
+    { tr: 'Kumru Dürüm',              en: 'Kumru Wrap',          price: 220, img: 'kumru-durum.png',             descTr: 'Sucuk, sosis, salam, eritilmiş kaşar, kornişon turşu',                                      descEn: 'Turkish sausage, salami, melted cheese, gherkin pickles' },
+    { tr: 'Sezar Soslu Tavuk Dürüm', en: 'Caesar Chicken Wrap', price: 290, img: 'sezar-soslu-tavuk-durum.png', descTr: 'Pane tavuk parçaları, füme et, marul, sezar sos',                                           descEn: 'Breaded chicken, smoked meat, lettuce, caesar dressing' },
+    { tr: 'Urban Bites Dürüm',       en: 'Urban Bites Wrap',    price: 230, img: 'urban-bites-durum.png',       descTr: 'Baharatlı tavuk, sumaklı soğan, kornişon turşu, kibrit patates, ketçaplı mayonezli sos',    descEn: 'Spiced chicken, sumac onion, gherkin pickles, thin fries, ketchup mayo sauce' },
+    { tr: 'Et Dürüm',                en: 'Beef Wrap',           price: 395, img: 'et-durum.png',                descTr: 'Et parçaları, biber, soğan, mantar, kaşar peyniri',                                         descEn: 'Beef pieces, pepper, onion, mushroom, melted cheese' },
   ],
 
   taco: [
@@ -85,41 +87,41 @@ var MENU_DATA = {
   ],
 
   pasta: [
-    { tr: 'Fettuccine',         en: 'Fettuccine Alfredo Style', price: 310, img: 'fettucine.png',    descTr: 'Tavuk, krema, mantar, sarımsak, fesleğen',              descEn: 'Chicken, cream, mushrooms, garlic, basil' },
-    { tr: 'Penne Arrabbiata',   en: 'Penne Arrabbiata',         price: 250, img: 'penne.png',        descTr: 'Arrabbiata sos, zeytin, parmesan, acı sos, tereyağı',  descEn: 'Spicy arrabbiata sauce, olives, parmesan, butter' },
-    { tr: 'Pesto Soslu Makarna',en: 'Creamy Pesto Pasta',       price: 290, img: 'pesto-makarna.png',descTr: 'Pesto, krema, sarımsak',                                descEn: 'Pesto sauce, cream, parmesan, garlic' },
+    { tr: 'Fettuccine',          en: 'Fettuccine Alfredo Style', price: 310, img: 'fettucine.png',     descTr: 'Tavuk, krema, mantar, sarımsak, fesleğen',             descEn: 'Chicken, cream, mushrooms, garlic, basil' },
+    { tr: 'Penne Arrabbiata',    en: 'Penne Arrabbiata',         price: 250, img: 'penne.png',         descTr: 'Arrabbiata sos, zeytin, parmesan, acı sos, tereyağı', descEn: 'Spicy arrabbiata sauce, olives, parmesan, butter' },
+    { tr: 'Pesto Soslu Makarna', en: 'Creamy Pesto Pasta',       price: 290, img: 'pesto-makarna.png', descTr: 'Pesto, krema, sarımsak',                               descEn: 'Pesto sauce, cream, parmesan, garlic' },
   ],
 
   salad: [
-    { tr: 'Sezar Salata',    en: 'Caesar Salad',       price: 295, img: 'tavuklu-sezar.png',   descTr: 'Tavuk parçaları, çıtır marul, sezar sos, kruton ekmeği, çeri domates, parmesan peyniri',                   descEn: 'Chicken pieces, crispy romaine, caesar dressing, croutons, cherry tomatoes, parmesan' },
-    { tr: 'Akdeniz Salata',  en: 'Mediterranean Salad',price: 210, img: 'akdeniz-salata.png',  descTr: 'Roka, iceberg, mor marul, endivyen, kuru domates, beyaz peynir, çeri domates, zeytinyağlı limon sosu',      descEn: 'Rocket, iceberg, red lettuce, endive, sun-dried tomato, feta, cherry tomatoes, olive oil & lemon dressing' },
-    { tr: 'Ton Balıklı Salata',en: 'Tuna Salad',       price: 300, img: 'ton-balik-salata.png',descTr: 'Ton balığı, roka, marul, kırmızı soğan, mısır, avokado, zeytinyağlı limon sosu',                           descEn: 'Tuna, rocket, lettuce, red onion, corn, avocado, olive oil & lemon dressing' },
+    { tr: 'Sezar Salata',      en: 'Caesar Salad',        price: 295, img: 'tavuklu-sezar.png',    descTr: 'Tavuk parçaları, çıtır marul, sezar sos, kruton ekmeği, çeri domates, parmesan peyniri',              descEn: 'Chicken pieces, crispy romaine, caesar dressing, croutons, cherry tomatoes, parmesan' },
+    { tr: 'Akdeniz Salata',    en: 'Mediterranean Salad', price: 210, img: 'akdeniz-salata.png',   descTr: 'Roka, iceberg, mor marul, endivyen, kuru domates, beyaz peynir, çeri domates, zeytinyağlı limon sosu', descEn: 'Rocket, iceberg, red lettuce, endive, sun-dried tomato, feta, cherry tomatoes, olive oil & lemon dressing' },
+    { tr: 'Ton Balıklı Salata',en: 'Tuna Salad',          price: 300, img: 'ton-balik-salata.png', descTr: 'Ton balığı, roka, marul, kırmızı soğan, mısır, avokado, zeytinyağlı limon sosu',                      descEn: 'Tuna, rocket, lettuce, red onion, corn, avocado, olive oil & lemon dressing' },
   ],
 
   classic: [
-    { tr: 'Tavuk, Pilav ve Nohut', en: 'Chicken, Rice & Chickpeas Plate', price: 180, img: 'tavuk-pilav.png', descTr: 'Turşu ile servis edilir', descEn: 'Served with pickles' },
+    { tr: 'Tavuk, Pilav ve Nohut', en: 'Chicken, Rice & Chickpeas Plate', price: 180, img: 'tavuk-pilav.png', descTr: 'Turşu ile servis edilir', descEn: 'Served with pickles', after18: true },
   ],
 
   snack: [
-    { tr: 'Patates Kızartması',               en: 'French Fries',                      price: 120, img: 'patates-kizartma.png', descTr: '', descEn: '' },
-    { tr: 'Soğan Halkası',                    en: 'Onion Rings',                       price: 150, img: 'sogan-halka.png',      descTr: '', descEn: '' },
-    { tr: 'Peynir Çubukları',                 en: 'Mozzarella Sticks',                 price: 180, img: 'cheese-sticks.png',    descTr: '', descEn: '' },
-    { tr: 'Maydanozlu ve Acı Soslu Patates',  en: 'Fries with Parsley & Hot Sauce',   price: 160, img: 'aci-patates.png',      descTr: '', descEn: '' },
-    { tr: 'Parmesanlı ve Trüf Yağlı Patates', en: 'Fries with Parmesan & Truffle Oil',price: 180, img: 'parmesan-patates.png', descTr: '', descEn: '' },
+    { tr: 'Patates Kızartması',                en: 'French Fries',                       price: 120, img: 'patates-kizartma.png', descTr: '', descEn: '' },
+    { tr: 'Soğan Halkası',                     en: 'Onion Rings',                        price: 150, img: 'sogan-halka.png',      descTr: '', descEn: '' },
+    { tr: 'Peynir Çubukları',                  en: 'Mozzarella Sticks',                  price: 180, img: 'cheese-sticks.png',    descTr: '', descEn: '' },
+    { tr: 'Maydanozlu ve Acı Soslu Patates',   en: 'Fries with Parsley & Hot Sauce',    price: 160, img: 'aci-patates.png',      descTr: '', descEn: '' },
+    { tr: 'Parmesanlı ve Trüf Yağlı Patates',  en: 'Fries with Parmesan & Truffle Oil', price: 180, img: 'parmesan-patates.png', descTr: '', descEn: '' },
   ],
 
   drinks: [
-    { tr: 'Coca-Cola',             en: 'Coca-Cola',              price: 120, img: 'cocacola-org.png',    descTr: '', descEn: '' },
-    { tr: 'Coca-Cola Zero',        en: 'Coca-Cola Zero',         price: 120, img: 'cocacola-zero.png',   descTr: '', descEn: '' },
-    { tr: 'Coca-Cola Light',       en: 'Coca-Cola Light',        price: 120, img: 'cocacola-light.png',  descTr: '', descEn: '' },
-    { tr: 'Fanta',                 en: 'Fanta',                  price: 120, img: 'fanta.png',           descTr: '', descEn: '' },
-    { tr: 'Sprite',                en: 'Sprite',                 price: 120, img: 'sprite.png',          descTr: '', descEn: '' },
-    { tr: 'Ice Tea Şeftali',       en: 'Ice Tea Peach',          price: 120, img: 'seftali_icetea.png',  descTr: '', descEn: '' },
-    { tr: 'Ice Tea Limon',         en: 'Ice Tea Lemon',          price: 120, img: 'limon_icetea.png',    descTr: '', descEn: '' },
-    { tr: 'Ice Tea Mango Ananas',  en: 'Ice Tea Mango Pineapple',price: 120, img: 'mango_icetea.png',    descTr: '', descEn: '' },
-    { tr: 'Ayran',                 en: 'Ayran',                  price:  50, img: 'ayran.png',           descTr: '', descEn: '' },
-    { tr: 'Su',                    en: 'Water',                  price:  30, img: 'su.png',              descTr: '', descEn: '' },
-    { tr: 'Soda',                  en: 'Soda',                   price:  50, img: 'soda.png',            descTr: '', descEn: '' },
+    { tr: 'Coca-Cola',            en: 'Coca-Cola',               price: 120, img: 'cocacola-org.png',   descTr: '', descEn: '' },
+    { tr: 'Coca-Cola Zero',       en: 'Coca-Cola Zero',          price: 120, img: 'cocacola-zero.png',  descTr: '', descEn: '' },
+    { tr: 'Coca-Cola Light',      en: 'Coca-Cola Light',         price: 120, img: 'cocacola-light.png', descTr: '', descEn: '' },
+    { tr: 'Fanta',                en: 'Fanta',                   price: 120, img: 'fanta.png',          descTr: '', descEn: '' },
+    { tr: 'Sprite',               en: 'Sprite',                  price: 120, img: 'sprite.png',         descTr: '', descEn: '' },
+    { tr: 'Ice Tea Şeftali',      en: 'Ice Tea Peach',           price: 120, img: 'seftali_icetea.png', descTr: '', descEn: '' },
+    { tr: 'Ice Tea Limon',        en: 'Ice Tea Lemon',           price: 120, img: 'limon_icetea.png',   descTr: '', descEn: '' },
+    { tr: 'Ice Tea Mango Ananas', en: 'Ice Tea Mango Pineapple', price: 120, img: 'mango_icetea.png',   descTr: '', descEn: '' },
+    { tr: 'Ayran',                en: 'Ayran',                   price:  50, img: 'ayran.png',          descTr: '', descEn: '' },
+    { tr: 'Su',                   en: 'Water',                   price:  30, img: 'su.png',             descTr: '', descEn: '' },
+    { tr: 'Soda',                 en: 'Soda',                    price:  50, img: 'soda.png',           descTr: '', descEn: '' },
   ],
 
 };
@@ -232,7 +234,8 @@ var MENU_DATA = {
     .item-info { flex: 1; display: flex; flex-direction: column; gap: 4px; padding-top: 2px; }
     .item-name { font-size: 14px; font-weight: 700; color: #1a1a1a; line-height: 1.3; }
     .item-desc { font-size: 11px; color: #8a8070; line-height: 1.55; }
-    .item-price { font-size: 13px; font-weight: 700; color: var(--teal); margin-top: 5px; }
+    .item-after18 { font-size: 12px; font-weight: 700; color: var(--red); margin-top: 2px; }
+    .item-price { font-size: 13px; font-weight: 700; color: var(--teal); margin-top: 3px; }
 
     .wa-btn {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
@@ -306,17 +309,15 @@ var MENU_DATA = {
 <script>
   var currentLang = 'tr';
   var strings = {
-    tr: { order: 'Sipariş Ver', flag: '🇬🇧', label: 'EN' },
-    en: { order: 'Order Now',   flag: '🇹🇷', label: 'TR' }
+    tr: { order: 'Sipariş Ver', flag: '🇬🇧', label: 'EN', after18: "18:00'dan sonra sipariş edilebilir" },
+    en: { order: 'Order Now',   flag: '🇹🇷', label: 'TR', after18: 'Available after 18:00' }
   };
 
-  // Tabları ve panelleri MENU_DATA'dan otomatik oluştur
   function buildMenu() {
-    var tabsContainer = document.getElementById('tabs-container');
+    var tabsContainer   = document.getElementById('tabs-container');
     var panelsContainer = document.getElementById('panels-container');
 
     TABS.forEach(function(tab, i) {
-      // Tab butonu
       var btn = document.createElement('button');
       btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
       btn.id = 'tab-' + tab.key;
@@ -326,7 +327,6 @@ var MENU_DATA = {
       btn.onclick = function() { switchTab(tab.key, btn); };
       tabsContainer.appendChild(btn);
 
-      // Panel
       var panel = document.createElement('div');
       panel.id = 'panel-' + tab.key;
       panel.className = 'tab-panel' + (i === 0 ? ' active' : '');
@@ -335,6 +335,9 @@ var MENU_DATA = {
       list.className = 'menu-list';
 
       (MENU_DATA[tab.key] || []).forEach(function(item) {
+        var after18Html = item.after18
+          ? '<div class="item-after18" data-tr="' + strings.tr.after18 + '" data-en="' + strings.en.after18 + '">' + strings.tr.after18 + '</div>'
+          : '';
         var div = document.createElement('div');
         div.className = 'menu-item';
         div.innerHTML =
@@ -342,6 +345,7 @@ var MENU_DATA = {
           '<div class="item-info">' +
             '<div class="item-name" data-tr="' + item.tr + '" data-en="' + item.en + '">' + item.tr + '</div>' +
             '<div class="item-desc" data-tr="' + item.descTr + '" data-en="' + item.descEn + '">' + item.descTr + '</div>' +
+            after18Html +
             '<div class="item-price">&#8378;' + item.price + '</div>' +
           '</div>';
         list.appendChild(div);
@@ -354,7 +358,7 @@ var MENU_DATA = {
 
   function calcTabWidth() {
     var tabs = document.querySelectorAll('.tab-btn');
-    var bar = document.getElementById('tabs-bar');
+    var bar  = document.getElementById('tabs-bar');
     var containerWidth = Math.min(Math.max(bar.offsetWidth, 300), 600);
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
@@ -368,8 +372,8 @@ var MENU_DATA = {
       });
     });
     var minTabWidth = Math.ceil(maxWordWidth) + 32;
-    var fitsFloat = containerWidth / minTabWidth;
-    var half = Math.floor(fitsFloat) + 0.5;
+    var fitsFloat   = containerWidth / minTabWidth;
+    var half        = Math.floor(fitsFloat) + 0.5;
     if (half < 3.5) half = 3.5;
     var tabWidth = Math.floor(containerWidth / half);
     tabs.forEach(function(btn) { btn.style.width = tabWidth + 'px'; });
